@@ -14,7 +14,7 @@ const fieldCharacter = "🟫";
 const spider = "🕷️ ";
 
 // ผมสร้างฟังชั่นที่สร้างแมพแบบสุ่ม
-function generateField(height, width, bombPercent = 0.3) {
+function generateField(height, width, bombPercent) {
   //==================================================================================================
   // อันนี้ผมสร้าง field เป็นcodeที่เจนแมพออกมาเป็น 🟫 ให้เต็มหน้าก่อน โดยอิงจากความสูงกับกว้าง
   // ตอนแรกผมจะให้มันสร้าง Array หลักก่อนเป็นการอิงจำนวนจาก height เป็นแถว row
@@ -73,9 +73,27 @@ function generateField(height, width, bombPercent = 0.3) {
   //ส่งออกเป็น Object
   return { field, startX, startY };
 }
+// จบการสร้าง map ค้าบ (น้ำตาไหลเป็นเลือด)
 
-// test
-const { field } = generateField(5, 5);
-field.forEach((row) => {
-  console.log(row.join(" "));
-});
+//==============================================================================================================
+// ต่อไปสร้างฟังชั่นให้แสดง map กันครับ
+// หลังจากนี้ต้องคอมเม้นน้อยลงแล้วครับกลัวไม่ทัน
+const { field, startX, startY } = generateField(5, 5, 0.3); //ทำตัวแปรส่ง prop ครับ แล้วก็กำหนด map ด้วยว่ากว้างเท่าไหรแล้วก็ระเบิดกี่เปอร์เซนต์
+
+// ตั้งที่อยู่แมงมุมหลังจากสุ่มได้ไปแสดงใน map
+let spiderX = startX;
+let spiderY = startY;
+
+// ทำให้ map แสดงออกมาครับ
+function printField() {
+  console.clear();
+  console.log("-----ไปกัดปีเตอร์กันจ้า-----");
+  console.log("w (ขึ้น) | s (ลง) | a (ซ้าย) | d (ขวา)\n");
+
+  for (let row of field) {
+    console.log(row.join(" "));
+  }
+}
+
+//test
+printField();
