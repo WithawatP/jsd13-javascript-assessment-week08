@@ -90,10 +90,51 @@ function printField() {
   console.log("-----ไปกัดปีเตอร์กันจ้า-----");
   console.log("w (ขึ้น) | s (ลง) | a (ซ้าย) | d (ขวา)\n");
 
+  // ใช้ for ให้ดึง row ของ array ออกมาที่ละตัว
   for (let row of field) {
+    // แปลงสมาชิกในแถวนั้นๆที่เป็น Array ให้กลายเป็น String ข้อความยาวๆ โดยคั่นด้วยเว้นวรรค " "
     console.log(row.join(" "));
   }
 }
+//==============================================================================================================
+// ได้เวลาทำการเล่นแล้วครับท่าน
+function playGame() {
+  //ปริ้นออก map มาก่อนค้าบ
+  printField();
+  //เป็นการยิงคำถามแล้วรอรับinputก่อน
+  rl.question("\nเดินไปกัดเลยครับ! ( w | a | s | d ): ", (input) => {
+    const move = input.trim().toLowerCase(); // ดักinputครับ ตัดหน้าหลังก่อนแล้วก็พิมพ์เล็กใหญ่ได้หมด
+    field[spiderY][spiderX] = fieldCharacter; // เคลียร์รอยเท้าแมงมุมครับ แบบเดินไปแล้วแทนที่ด้วยพื้นสีน้ำตาล
+
+    // ต่อมาผมกำหนดตัวแปลไว้เผื่อไว้คำนวนตำแหน่งใหม่ครับ
+    let newX = spiderX;
+    let newY = spiderY;
+
+    // กำหนดขอบเขตต่อครับอันนี้ ใช้ if else
+    if (move === "w")
+      newY -= 1; // กด w แล้วลบ y ไป 1 เพื่อย้ายตำแหน่งไป array แกน y ให้ต่ำลง (ก็คือเดินขึ้นนั้นแหละ)
+    else if (move === "s")
+      newY += 1; // เหมือนกันครับ ให้ดูตามแกนได้เลย
+    else if (move === "a") newX -= 1;
+    else if (move === "d") newX += 1;
+    // อันนี้ดักไว้ก่อนครับ (ใส่เอาเท่ อยากวีนเฉยๆ)
+    // ถ้าinputตัวอื่นนอกเหนือจาก w a s d วีนเลย
+    else {
+      field[spiderY][spiderX] = spider;
+      console.log("กดได้แค่ w, a, s, d เท่านั้น!!!!!!");
+      // delayสักหน่อย แล้วค่อยกลับไปให้ input เหมือนเดิม
+      setTimeout(playGame, 2000);
+      return;
+    }
+
+    // อันนี้ผมทำให้ดึงคืนครับเอามาเทสก่อนให้เป็นตำแหน่งใหม่เรื่อยๆ
+    spiderX = newX;
+    spiderY = newY;
+
+    field[spiderY][spiderX] = spider; //แมงมุมมาแสดงใหม่แล้วเล่นต่อ
+    playGame();
+  });
+}
 
 //test
-printField();
+playGame();
